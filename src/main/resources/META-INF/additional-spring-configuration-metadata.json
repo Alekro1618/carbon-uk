@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "generation.api.url",
+  "type": "java.lang.String",
+  "description": "The base url for generational mix. Docs: https://carbon-intensity.github.io/api-definitions/"
+}]}
