@@ -28,7 +28,6 @@ public class GenerationService {
 
         //Aggregate generation half hour stamps to day stamps
         return aggregator.aggregate(list, 1, ChronoUnit.DAYS).toList();
-            
     }
 
     public GenerationStamp getOptimalRange(OffsetDateTime from, OffsetDateTime to, int window) {

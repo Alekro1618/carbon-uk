@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.example.carbon.uk.forecast.model.Generation;
 import com.example.carbon.uk.forecast.model.GenerationStamp;
+
 /**
  * 
  * GenerationComparator is implementation of {@link Comparator} for {@link GenerationStamp}. 

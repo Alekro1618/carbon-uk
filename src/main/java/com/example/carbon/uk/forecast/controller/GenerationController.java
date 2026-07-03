@@ -1,19 +1,11 @@
 package com.example.carbon.uk.forecast.controller;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalAmount;
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.example.carbon.uk.forecast.model.Generation;
 import com.example.carbon.uk.forecast.model.GenerationStamp;
 import com.example.carbon.uk.forecast.service.GenerationService;
 
@@ -35,11 +27,11 @@ public class GenerationController {
 
     @GetMapping("")
     public List<GenerationStamp> getGenerationRange(
-        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime from,
-        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime to
+        @RequestParam(name = "from", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime from,
+        @RequestParam(name = "to", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime to
     ) {
         //Convert to standard interval if some parameters are null
-        OffsetDateTime From = (from != null) ? from : OffsetDateTime.now();
+        OffsetDateTime From = (from != null) ? from : OffsetDateTime.now().truncatedTo(ChronoUnit.DAYS);
         OffsetDateTime To = (to != null) ? to : From.plus(2, ChronoUnit.DAYS);
 
         return service.getGenerationRange(From, To);
@@ -48,13 +40,13 @@ public class GenerationController {
 
     @GetMapping("/optimal")
     public GenerationStamp getOptimalRange(
-        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime from,
-        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime to,
-        @RequestParam(defaultValue = "2") @Min(1) @Max(6) int window
+        @RequestParam(name = "from", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime from,
+        @RequestParam(name = "to", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime to,
+        @RequestParam(name = "window", defaultValue = "2") @Min(1) @Max(6) int window
     )
     {
         //Convert to standard interval if some parameters are null
-        OffsetDateTime From = (from != null) ? from : OffsetDateTime.now();
+        OffsetDateTime From = (from != null) ? from : OffsetDateTime.now().truncatedTo(ChronoUnit.DAYS);
         OffsetDateTime To = (to != null) ? to : From.plus(2, ChronoUnit.DAYS);
 
         return service.getOptimalRange(From, To, window);
