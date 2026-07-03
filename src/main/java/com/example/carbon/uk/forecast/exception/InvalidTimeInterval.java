@@ -5,8 +5,8 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class JobNotFoundException extends RuntimeException {
-    public JobNotFoundException(String msg) {
+public class InvalidTimeInterval extends RuntimeException {
+    public InvalidTimeInterval(String msg) {
         super(msg);
     }
 }

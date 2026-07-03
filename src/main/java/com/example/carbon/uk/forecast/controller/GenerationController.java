@@ -36,21 +36,28 @@ public class GenerationController {
     @GetMapping("")
     public List<GenerationStamp> getGenerationRange(
         @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime from,
-        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime to) {
-
+        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime to
+    ) {
+        //Convert to standard interval if some parameters are null
         OffsetDateTime From = (from != null) ? from : OffsetDateTime.now();
-        OffsetDateTime To = (to != null) ? to : From.plus(3, ChronoUnit.DAYS);
+        OffsetDateTime To = (to != null) ? to : From.plus(2, ChronoUnit.DAYS);
 
         return service.getGenerationRange(From, To);
     }
     
 
-    @GetMapping("/optim")
-    public String getOptimalRange(
-        @RequestParam @Min(1) @Max(6) int window)
+    @GetMapping("/optimal")
+    public GenerationStamp getOptimalRange(
+        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime from,
+        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime to,
+        @RequestParam(defaultValue = "2") @Min(1) @Max(6) int window
+    )
     {
-        //TODO:
-        return "";
+        //Convert to standard interval if some parameters are null
+        OffsetDateTime From = (from != null) ? from : OffsetDateTime.now();
+        OffsetDateTime To = (to != null) ? to : From.plus(2, ChronoUnit.DAYS);
+
+        return service.getOptimalRange(From, To, window);
     }
     
 }
